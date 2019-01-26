@@ -15,7 +15,7 @@ public class TestController02 {
     //跳转到上传文件的页面
     @RequestMapping(value = "/toLogin", method = RequestMethod.GET)
     public String login() {
-        //跳转到 templates 目录下的 test02.html
+        //跳转到 templates 目录下的 login.html
         LogUtils.e("访问login.html");
         return "login";
     }
