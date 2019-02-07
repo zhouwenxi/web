@@ -29,4 +29,9 @@ public class Keys {
      * 上传图片
      */
     public static final String KEY_WEB_UPLOAD_PICTURE = KEY_WEB_UPLOAD + "/picture";
+
+    /**
+     * 上传其他文件
+     */
+    public static final String KEY_WEB_UPLOAD_OTHER = KEY_WEB_UPLOAD + "/other";
 }

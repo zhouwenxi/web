@@ -1,11 +1,13 @@
 package com.qishui.utils;
 
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
 
 /**
  * Created by zhou on 2019/1/26.
- *
  */
 public class FileUtils {
 
@@ -20,7 +22,6 @@ public class FileUtils {
 
         for (int i = 90; i >= 67; i--) {
             char ch = (char) i;
-            LogUtils.e("遍历:" + (char) i + "--> " + i);
             if (new File(String.valueOf(ch) + ":").exists()) {
                 File parent = new File(ch + ":/" + dir);
                 if (!parent.exists()) {
@@ -41,6 +42,41 @@ public class FileUtils {
             }
         }
         throw new RuntimeException();
+    }
+
+    /**
+     * 文件复制
+     *
+     * @param file
+     * @param path
+     */
+    public static void copy(MultipartFile file, String path) {
+
+        if (file == null || file.isEmpty()) {
+            return;
+        }
+        try {
+            file.transferTo(new File(path));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 关流
+     */
+    public static void close(Closeable... closeables) {
+        try {
+            if (closeables != null) {
+                for (Closeable closeable:closeables) {
+                    if (closeable != null) {
+                        closeable.close();
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
