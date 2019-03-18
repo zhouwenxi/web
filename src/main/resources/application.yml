@@ -1,6 +1,6 @@
 server:
-  port: 8888
-  servlet.context-path: /web
+  port: 9999
+  servlet.context-path: /
   tomcat.max-threads: 0
   tomcat.uri-encoding: UTF-8
 

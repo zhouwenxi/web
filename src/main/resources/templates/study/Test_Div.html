@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>盒子模型</title>
+    <style>
+
+        #body {
+            margin: 0;
+            padding: 0;
+        }
+
+        #top {
+            text-align: center; /*让div内部文字居中*/
+            background-color: #f0f0f0;
+            width: 100%;
+            height: 350px;
+            position: relative;
+        }
+
+        #box1 { /* ID为box的盒子模型     */
+            width: 25%; /* 盒子的宽度为200px     */
+            height: 200px; /* 盒子的高度为200px     */
+            border: 5px solid #ccc; /* 盒子边框实线各边宽5px */
+            background-color: #00a4ac;
+            line-height: 200px; /*行高与div高度一致*/
+            float: left;
+            border-radius: 5px;
+            margin-left: 30px;
+            margin-top: 30px;
+        }
+
+        #box2 { /* ID为box的盒子模型     */
+            width: 35%; /* 盒子的宽度为200px     */
+            height: 200px; /* 盒子的高度为200px     */
+            border: 5px solid #ccc; /* 盒子边框实线各边宽5px */
+            background-color: #00a4ac;
+            line-height: 200px; /*行高与div高度一致*/
+            float: left;
+            border-radius: 5px;
+            margin: 30px;
+        }
+
+        #box3 { /* ID为box的盒子模型     */
+            width: 25%; /* 盒子的宽度为200px     */
+            height: 200px; /* 盒子的高度为200px     */
+            border: 5px solid #ccc; /* 盒子边框实线各边宽5px */
+            background-color: #00a4ac;
+            line-height: 200px; /*行高与div高度一致*/
+            float: left;
+            border-radius: 5px;
+            margin-right: 30px;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body bgcolor="#f0ffff" id="body">
+
+<div id="top">
+
+    <div id="box1">                           <!-- 使用DIV声明一个盒子    -->
+        66666 1                             <!-- 盒子内容可再嵌套个盒子 -->
+    </div>
+
+    <div id="box2">                           <!-- 使用DIV声明一个盒子    -->
+        66666 2                            <!-- 盒子内容可再嵌套个盒子 -->
+    </div>
+
+    <div id="box3">                           <!-- 使用DIV声明一个盒子    -->
+        66666 3                            <!-- 盒子内容可再嵌套个盒子 -->
+    </div>
+
+</div>
+
+</body>
+</html>

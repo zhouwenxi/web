@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+</head>
+
+<style>
+
+</style>
+
+<body>
+<h1>Hello Spring Boot!!!</h1>
+
+<p th:text="${hello}"></p>
+<div>
+    <p th:text="${say}"></p>
+</div>
+
+<span>列表显示</span>
+
+
+<div>
+
+    <table border="1" width="100%">
+
+        <tr>
+            <th>编号</th>
+            <th>用户名</th>
+            <th>密码</th>
+        </tr>
+
+        <tr th:each="item : ${list}">
+            <td th:text="${item.id}"></td>
+            <td th:text="${item.username}"></td>
+            <td th:text="${item.password}"></td>
+        </tr>
+
+    </table>
+
+</div>
+
+
+</body>
+</html>
