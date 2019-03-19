@@ -2,8 +2,12 @@ package com.qishui.controller;
 
 import com.qishui.constant.Keys;
 import com.qishui.utils.FileUtils;
+import com.qishui.utils.ImageRemarkUtil;
 import com.qishui.utils.LogUtils;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.util.ClassUtils;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,6 +18,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.net.URL;
 import java.util.List;
 
 /**
@@ -23,19 +28,43 @@ import java.util.List;
 @Controller
 public class TestController03 {
 
-    @RequestMapping(value = "fileUpload", method = RequestMethod.POST)
-    @ResponseBody
-    public String uploadFile(@RequestParam("fileName") MultipartFile file) {
+    @RequestMapping(value = "fileUpload_shuiying", method = RequestMethod.POST)
+    public String uploadFile(@RequestParam("fileName") MultipartFile file, Model model) {
 
         if (file.isEmpty()) {
             return "fail";
         }
 
         String filename = file.getOriginalFilename();
-        String path = FileUtils.getDir(Keys.KEY_WEB_UPLOAD_OTHER, filename);
-        //保存文件
-        FileUtils.copy(file, path);
-        return "success:" + path;
+
+        try {
+            String path = ResourceUtils.getURL("classpath:").getPath();
+            File upload = new File(path, "static/upload/");
+            if (!upload.exists()) {
+                upload.mkdirs();
+            }
+
+            path = upload.getAbsolutePath() + "\\" + filename;
+
+            String shuiyin = upload.getAbsolutePath() + "\\shuiying_" + filename;
+            LogUtils.e("upload url:" + path);
+            String logoText = "QQDDC";
+            LogUtils.e("给图片添加水印文字开始...");
+            //保存文件
+            FileUtils.copy(file, path);
+            ImageRemarkUtil.markImageByText(logoText, path, shuiyin, null);
+            //删除原图
+            if (new File(path).exists()) {
+                new File(path).delete();
+            }
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        model.addAttribute("src", "../upload/shuiying_" + filename);
+
+        return "show_photo";
     }
 
     @RequestMapping(value = "multifileUpload01", method = RequestMethod.POST)

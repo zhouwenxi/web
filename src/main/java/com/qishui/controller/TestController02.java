@@ -3,11 +3,15 @@ package com.qishui.controller;
 import com.qishui.bean.HttpBean;
 import com.qishui.bean.UserBean;
 import com.qishui.constant.Keys;
+import com.qishui.utils.FileUtils;
 import com.qishui.utils.LogUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,7 +44,7 @@ public class TestController02 {
      * @param map
      * @return
      */
-    @RequestMapping("/hello")
+    @RequestMapping("/index")
     public String helloHtml(HashMap<String, Object> map, Model model) {
         model.addAttribute("say", "欢迎欢迎,热烈欢迎");
         map.put("hello", "欢迎进入HTML页面");
@@ -69,5 +73,8 @@ public class TestController02 {
         LogUtils.e("upload.html");
         return "upload";
     }
+
+
+
 
 }

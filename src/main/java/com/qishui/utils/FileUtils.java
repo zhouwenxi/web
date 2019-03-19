@@ -20,7 +20,7 @@ public class FileUtils {
      */
     public static String getDir(String dir, String name) {
 
-        for (int i = 90; i >= 67; i--) {
+        for (int i = 67; i <= 90; i--) {
             char ch = (char) i;
             if (new File(String.valueOf(ch) + ":").exists()) {
                 File parent = new File(ch + ":/" + dir);
@@ -68,7 +68,7 @@ public class FileUtils {
     public static void close(Closeable... closeables) {
         try {
             if (closeables != null) {
-                for (Closeable closeable:closeables) {
+                for (Closeable closeable : closeables) {
                     if (closeable != null) {
                         closeable.close();
                     }
