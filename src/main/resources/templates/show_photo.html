@@ -6,17 +6,6 @@
 
     <style type="text/css">
 
-        #watermark {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            color: #000;
-            font-family: "黑体", "仿宋", "楷体", "宋体", "微软雅黑";
-            font-size: 36px;
-            opacity: 0.95;
-        }
 
         #water-text {
             line-height: 1em;
@@ -24,10 +13,21 @@
             float: left;
             display: block;
             font-size: 36px;
-            left: 569.5px;
+            left: 600px;
             top: 50px;
             opacity: 0.5;
             color: rgb(19, 64, 211);
+        }
+
+        .watermark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            color: #000;
+            font-size: 36px;
+            opacity: 0.95;
         }
 
         .row {
@@ -79,16 +79,112 @@
             padding: 6px 12px;
         }
 
+        #big {
+            border: 1px solid #FF3300;
+            width: 400px;
+            height: 400px;
+            position: relative;
+        }
+
+        #small {
+            background: #99CC00;
+            width: 100px;
+            height: 100px;
+            position: absolute;
+            cursor: pointer;
+        }
+
     </style>
 
 
+    <script type="text/javascript">
+
+        // 设置名字
+        function setwateName() {
+            document.getElementById("water-text").innerHTML = document.getElementById("words").value;
+        }
+
+        //设置颜色
+        function setwateColor() {
+
+            var color = document.getElementById("color").value;
+            var reg = "#([0-9a-fA-F]{6}|[0-9a-fA-F]{3})$";
+
+            if (color.match(reg)) {
+                document.getElementById("water-text").style.color = color;
+            } else {
+                document.getElementById("water-text").style.color = '#000000';
+            }
+
+
+        }
+
+        //设置透明度
+        function setwateAlpha() {
+            var x = document.getElementById("opacity").value;
+            alert(x);
+            document.getElementById("water-text").style.filter = "alpha(opacity=60%)";
+        }
+
+        //设置字体大小
+        function setWaterSize() {
+            document.getElementById("water-text").style.fontSize = document.getElementById("size").value;
+        }
+
+        //设置字体样式
+        function setWaterFontFamily() {
+            document.getElementById("water-text").style.fontFamily = document.getElementById("font").value;
+        }
+
+        //设置水印位置
+        function setWaterPosition() {
+
+            alert(document.getElementById("position").value);
+        }
+
+        function small_down(e) {
+            var obig = document.getElementById("big");
+            var osmall = document.getElementById("small");
+            var e = e || window.event;
+            /*用于保存小的div拖拽前的坐标*/
+            osmall.startX = e.clientX - osmall.offsetLeft;
+            osmall.startY = e.clientY - osmall.offsetTop;
+            /*鼠标的移动事件*/
+            document.onmousemove = function (e) {
+                var e = e || window.event;
+                osmall.style.left = e.clientX - osmall.startX + "px";
+                osmall.style.top = e.clientY - osmall.startY + "px";
+                /*对于大的DIV四个边界的判断*/
+                if (e.clientX - osmall.startX <= 0) {
+                    osmall.style.left = 0 + "px";
+                }
+                if (e.clientY - osmall.startY <= 0) {
+                    osmall.style.top = 0 + "px";
+                }
+                if (e.clientX - osmall.startX >= 300) {
+                    osmall.style.left = 300 + "px";
+                }
+                if (e.clientY - osmall.startY >= 300) {
+                    osmall.style.top = 300 + "px";
+                }
+            };
+            /*鼠标的抬起事件,终止拖动*/
+            document.onmouseup = function () {
+                document.onmousemove = null;
+                document.onmouseup = null;
+            };
+        }
+
+
+    </script>
+     
 </head>
 <body style="background-color:#F1F3F4 ;">
 
-<div id="workspace">
+<div class="workspace">
     <div id="org-img" style="display: block;width: 100% ;text-align: center;margin-top: 30px">
         <img id="org-img-img" th:src="@{${src}}" alt="" style="max-height:400px"/>
-        <span id="water-text">改222222</span>
+        <span id="water-text">QiShui</span>
     </div>
 </div>
 
@@ -104,7 +200,7 @@
             </div>
             <div class="col-md-3">
                 <div class="input-group"><span class="input-group-addon">字体</span>
-                    <select id="font" class="form-control">
+                    <select id="font" class="form-control" onchange="setWaterFontFamily()">
                         <option value="宋体" selected="selected">宋体</option>
                         <option value="黑体">黑体</option>
                         <option value="微软雅黑">微软雅黑</option>
@@ -128,13 +224,13 @@
             </div>
             <div class="col-md-3">
                 <div class="input-group"><span class="input-group-addon">大小</span>
-                    <select id="size" class="form-control">
-                        <option value="12">12px</option>
-                        <option value="16">16px</option>
-                        <option value="24">24px</option>
-                        <option value="36" selected="selected">36px</option>
-                        <option value="48">48px</option>
-                        <option value="64">64px</option>
+                    <select id="size" class="form-control" onchange="setWaterSize()">
+                        <option value="12px">12px</option>
+                        <option value="16px">16px</option>
+                        <option value="24px">24px</option>
+                        <option value="36px" selected="selected">36px</option>
+                        <option value="48px">48px</option>
+                        <option value="64px">64px</option>
                     </select>
                 </div>
             </div>
@@ -144,12 +240,12 @@
             <div class="col-md-4">
                 <div class="input-group"><span class="input-group-addon">颜色</span>
                     <input id="color" class="form-control colorpicker-element" value="#1340d3"
-                           style="background:#1340d3; color:#FFF" oninput="setwateColor()">
+                           style="background:#1340d3; color:#FFF; " oninput="setwateColor()">
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="input-group"><span class="input-group-addon">水印位置</span>
-                    <select id="position" class="form-control">
+                    <select id="position" class="form-control" onchange="setWaterPosition()">
                         <option value="Center" selected="selected">正中心</option>
                         <option value="North">正上方</option>
                         <option value="South">正下方</option>
@@ -184,28 +280,11 @@
     </div>
 </div>
 
-<script>
 
-
-    // 设置名字
-    function setwateName() {
-        var x = document.getElementById("words").value;
-        document.getElementById("water-text").innerHTML = x;
-    }
-
-    //设置颜色
-    function setwateColor() {
-        document.getElementById("water-text").style.color = "red"
-    }
-
-    //设置透明度
-    function setwateAlpha() {
-        var x = document.getElementById("opacity").value;
-        document.getElementById("water-text").style.filter = "alpha(opacity=60%)";
-    }
-
-</script>
- 
+<div id="big">
+    <img th:src="@{${src}}"  style="max-height:400px"/>
+    <div id="small" onmousedown="small_down(event)"></div>
+</div>
 
 </body>
 </html>
