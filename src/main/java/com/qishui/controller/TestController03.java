@@ -46,25 +46,21 @@ public class TestController03 {
 
             path = upload.getAbsolutePath() + "\\" + filename;
 
-            String shuiyin = upload.getAbsolutePath() + "\\shuiying_" + filename;
+           // String shuiyin = upload.getAbsolutePath() + "\\shuiying_" + filename;
             LogUtils.e("upload url:" + path);
-            String logoText = "QQDDC";
-            LogUtils.e("给图片添加水印文字开始...");
+            //String logoText = "QQDDC";
+            //LogUtils.e("给图片添加水印文字开始...");
             //保存文件
             FileUtils.copy(file, path);
-            ImageRemarkUtil.markImageByText(logoText, path, shuiyin, null);
-            //删除原图
-            if (new File(path).exists()) {
-                new File(path).delete();
-            }
+            //ImageRemarkUtil.markImageByText(logoText, path, shuiyin, null);
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
 
-        model.addAttribute("src", "../upload/shuiying_" + filename);
+        model.addAttribute("src", "../upload/" + filename);
 
-        return "show_photo";
+        return "water";
     }
 
     @RequestMapping(value = "multifileUpload01", method = RequestMethod.POST)

@@ -1,11 +1,35 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+<!--此网页演示了html2canvas网页截图下载 -->
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <!-- jquery库和html2canvas库 -->
+    <script type="text/javascript" src="../../css/html2canvas.js"/>
+    <script type="text/javascript" src="../../css/jquery-1.8.3.min.js"></script>
+    <title>html2canvas网页截图</title>
+
+    <!--需要注意的是,这里一定要等待js库和网页加载完毕后再执行函数  -->
+    <!-- html2canvas()中,第一个参数是要截图的Dom对象，第二个参数时渲染完成后回调的canvas对象。  -->
+    <script type="text/javascript">
+        $(function(){
+            print();
+        });
+        function print(){
+            html2canvas( $("#canv") ,{
+                onrendered: function(canvas){
+                    $('#down_button').attr( 'href' , canvas.toDataURL() ) ;
+                    $('#down_button').attr( 'download' , 'myjobdeer.png' ) ;
+                }
+            });
+        }
+    </script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
-
 <body>
-</body>
+<div id="canv">
+    Cease to struggle and you cease to live.<br/>
 
+</div>
+<a type="button" id="down_button">download</a>
+
+</body>
 </html>
