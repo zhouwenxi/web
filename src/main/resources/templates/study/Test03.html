@@ -1,10 +1,22 @@
 <!doctype html>
-<html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
 <meta charset="utf-8"/>
-<script src="jquery-1.8.3.min.js"></script>
-<script src="html2canvas.js"></script>
+<script src="../css/jquery-1.8.3.min.js"></script>
+<script src="../css/html2canvas.js"></script>
 
 <style>
+
+    #img{
+         display: none;
+     }
+
+
+    #content {
+        width: 600px;
+        height: 600px;
+        border: 1px lightblue solid;
+        background-repeat: no-repeat;
+    }
 
     #water-text {
         width: 100px;
@@ -17,10 +29,11 @@
 
 </style>
 
-
 <body>
-<div id=content
-     style="width:600px;height:600px;border:1px lightblue solid;background-image: url('bg.jpg');background-repeat: no-repeat; ">
+<input id="url" type="hidden" th:value="${src}" />
+<img id="img" th:src="@{${src}}">
+
+<div id="content">
 
     <span id="water-text" onmousedown="small_down(event)">Hello world</span>
 
@@ -32,8 +45,26 @@
 
 <button id="Save">Save</button>
 
+</body>
+
 
 <script>
+    //设置属性
+    var img= document.getElementById('img');
+    var url=document.getElementById('url');
+    var text;
+    var path;
+    setSize();
+    function setSize() {
+        text=document.getElementById('water-text');
+        var div = document.getElementById('content');
+        div.style.width = img.width+'px';
+        div.style.height = img.height+'px';
+        div.style.backgroundImage="url('"+url.value+"')";
+        path=img.src;
+        path="_water_"+path.substring(path.lastIndexOf('/')+1,path.length);
+    }
+
 
     // 设置名字
     function setwateName() {
@@ -60,11 +91,11 @@
             if (e.clientY - osmall.startY <= 0) {
                 osmall.style.top = 0 + "px";
             }
-            if (e.clientX - osmall.startX >= 530) {
-                osmall.style.left = 530 + "px";
+            if (e.clientX - osmall.startX >= img.width) {
+                osmall.style.left = img.width + "px";
             }
-            if (e.clientY - osmall.startY >= 570) {
-                osmall.style.top = 570 + "px";
+            if (e.clientY - osmall.startY >= img.height) {
+                osmall.style.top = img.height + "px";
             }
         };
         /*鼠标的抬起事件,终止拖动*/
@@ -80,18 +111,17 @@
 
                 onrendered: function (canvas) {
                     //document.body.appendChild(canvas);
-
                     var a = document.createElement('a');
-                    a.download = '我是文件名.jpg';
+                    a.download = path;
                     a.href = canvas.toDataURL("image/jpeg");
                     a.click();
-
                 }
-
             });
         });
     });
 
 </script>
-</body>
+
+
+
 </html>

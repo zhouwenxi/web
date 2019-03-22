@@ -58,9 +58,10 @@ public class TestController03 {
             e.printStackTrace();
         }
 
-        model.addAttribute("src", "../upload/" + filename);
+        model.addAttribute("src", "/upload/" + filename);
 
-        return "water";
+        //return "water";
+        return "study/Test03";
     }
 
     @RequestMapping(value = "multifileUpload01", method = RequestMethod.POST)
