@@ -5,6 +5,7 @@ package com.qishui.constant;
  */
 public class Keys {
 
+
     /**
      * 成功状态
      */

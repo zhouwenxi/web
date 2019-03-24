@@ -2,14 +2,16 @@ package com.qishui;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.util.unit.DataSize;
 
 import javax.servlet.MultipartConfigElement;
 
 @SpringBootApplication
-public class WebApplication {
+public class WebApplication  extends SpringBootServletInitializer {
 
     //程序启动入口
     public static void main(String[] args) {
@@ -28,5 +30,10 @@ public class WebApplication {
         return factory.createMultipartConfig();
     }
 
+    //war打包
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+        return builder.sources(WebApplication.class);
+    }
 }
 

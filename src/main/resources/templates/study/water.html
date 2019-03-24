@@ -1,0 +1,277 @@
+<!doctype html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<meta charset="utf-8"/>
+<script src="../css/jquery-1.8.3.min.js"></script>
+<script src="../css/html2canvas.js"></script>
+<script src="../css/jscolor.js"></script>
+<!--<script src="jscolor.js"></script>-->
+
+<style>
+
+    #img {
+        display: none;
+    }
+
+    #content {
+        width: 600px;
+        height: 600px;
+        border: 1px lightblue solid;
+        background-repeat: no-repeat;
+
+    }
+
+    #water-text {
+        width: 300px;
+        height: 30px;
+        line-height: 30px;
+        color: #ff0000;
+        position: absolute;
+        cursor: pointer;
+    }
+
+    #set {
+        border: 1px solid #00a4ac;
+        background-color: #99CC00;
+        border-radius: 10px;
+        height: 55px;
+        position: relative;
+        text-align: center;
+    }
+
+    .row {
+        width: 100%;
+        background-color: #90a2bc;
+        margin-top: 10px;
+        text-align: center;
+    }
+
+    .col-md-3, .col-md-6, .col-md-4 {
+        float: left;
+        margin-right: 10px;
+        margin-left: 10px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+
+    .btn-success {
+        background-color: #3D9C47;
+        text-align: center;
+        color: white;
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+    .input-group-addon {
+        padding: 6px 12px;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 1;
+        color: #555;
+        text-align: center;
+        background-color: #eee;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    .form-control {
+        padding: 6px 12px;
+    }
+
+</style>
+
+<body>
+<input id="url" type="hidden" th:value="${src}"/>
+<img id="img" th:src="@{${src}}">
+
+<div id="content">
+
+    <span id="water-text" onmousedown="small_down(event)">QiShui</span>
+
+</div>
+
+
+<div id="set">
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="input-group"><span class="input-group-addon">水印文字</span>
+                    <input id="words" value="QiShui" class="form-control" maxlength="16" oninput="setwateName()">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="input-group"><span class="input-group-addon">字体</span>
+                    <select id="font" class="form-control" onchange="setWaterFontFamily()">
+                        <option value="宋体" selected="selected">宋体</option>
+                        <option value="黑体">黑体</option>
+                        <option value="微软雅黑">微软雅黑</option>
+                        <option value="仿宋">仿宋</option>
+                        <option value="楷体">楷体</option>
+                        <option value="arial">Arial</option>
+                        <option value="calibri">Calibri</option>
+                        <option value="cambria">Cambria</option>
+                        <option value="candara">Candara</option>
+                        <option value="consolas">Consolas</option>
+                        <option value="cordia new">Cordia New</option>
+                        <option value="frankruehl">Drankruehl</option>
+                        <option value="georgia">Georgia</option>
+                        <option value="lucida console">Lucida Console</option>
+                        <option value="palatino linotype">Palatino Linotype</option>
+                        <option value="tahoma">Tahoma</option>
+                        <option value="times new roman">Times New Roman</option>
+                        <option value="verdana">Verdana</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="input-group"><span class="input-group-addon">大小</span>
+                    <select id="size" class="form-control" onchange="setWaterSize()">
+                        <option value="12px">12px</option>
+                        <option value="16px">16px</option>
+                        <option value="24px">24px</option>
+                        <option value="36px" selected="selected">36px</option>
+                        <option value="48px">48px</option>
+                        <option value="64px">64px</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="input-group"><span class="input-group-addon">颜色</span>
+                    <input id="color"
+                           class="form-control colorpicker-element jscolor {valueElement:'chosen-value', onFineChange:'setTextColor(this)'}"
+                           value="#1340d3"
+                           style="background:#1340d3; color:#FFF; ">
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="input-group"><span class="input-group-addon">透明度</span>
+                    <select id="opacity" class="form-control" oninput="setwateAlpha()">
+                        <option value="1">100%</option>
+                        <option value="0.90">90%</option>
+                        <option value="0.80">80%</option>
+                        <option value="0.60">60%</option>
+                        <option value="0.50" selected="selected">50%</option>
+                        <option value="0.40">40%</option>
+                        <option value="0.30">30%</option>
+                        <option value="0.20">20%</option>
+                        <option value="0.10">10%</option>
+                        <option value="0.5">5%</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <button id="Save" class="btn-success">确认生成水印</button>
+    </div>
+</div>
+
+</body>
+
+
+<script>
+    //设置属性
+    var img = document.getElementById('img');
+    var url = document.getElementById('url');
+    var text;
+    var path;
+
+    setSize();
+    function setSize() {
+        text = document.getElementById('water-text');
+        var div = document.getElementById('content');
+        div.style.width = img.width + 'px';
+        div.style.height = img.height + 'px';
+        div.style.backgroundImage = "url('" + url.value + "')";
+
+        path = img.src;
+        path = "_water_" + path.substring(path.lastIndexOf('/') + 1, path.length);
+    }
+
+
+    // 设置名字
+    function setwateName() {
+        document.getElementById("water-text").innerHTML = document.getElementById("words").value;
+    }
+
+
+
+    //设置透明度
+    function setwateAlpha() {
+        var x = document.getElementById("opacity").value;
+
+        $("#water-text").css({opacity: x});
+
+    }
+
+    //设置字体大小
+    function setWaterSize() {
+        document.getElementById("water-text").style.fontSize = document.getElementById("size").value;
+    }
+
+    //设置字体样式
+    function setWaterFontFamily() {
+        document.getElementById("water-text").style.fontFamily = document.getElementById("font").value;
+    }
+
+
+    //移动处理
+    function small_down(e) {
+        var obig = document.getElementById("water-wrap");
+        var osmall = document.getElementById("water-text");
+        var e = e || window.event;
+        /*用于保存小的div拖拽前的坐标*/
+        osmall.startX = e.clientX - osmall.offsetLeft;
+        osmall.startY = e.clientY - osmall.offsetTop;
+        /*鼠标的移动事件*/
+        document.onmousemove = function (e) {
+            var e = e || window.event;
+            osmall.style.left = e.clientX - osmall.startX + "px";
+            osmall.style.top = e.clientY - osmall.startY + "px";
+            /*对于大的DIV四个边界的判断*/
+            if (e.clientX - osmall.startX <= 0) {
+                osmall.style.left = 0 + "px";
+            }
+            if (e.clientY - osmall.startY <= 0) {
+                osmall.style.top = 0 + "px";
+            }
+            if (e.clientX - osmall.startX >= img.width) {
+                osmall.style.left = img.width + "px";
+            }
+            if (e.clientY - osmall.startY >= img.height) {
+                osmall.style.top = img.height + "px";
+            }
+        };
+        /*鼠标的抬起事件,终止拖动*/
+        document.onmouseup = function () {
+            document.onmousemove = null;
+            document.onmouseup = null;
+        };
+    }
+
+    $(function () {
+        $("#Save").click(function () {
+            html2canvas($("#content"),
+                {
+                onrendered: function (canvas) {
+                    //document.body.appendChild(canvas);
+                    var a = document.createElement('a');
+                    a.download = path;
+                    a.href = canvas.toDataURL("image/jpeg");
+                    a.click();
+                }
+            });
+        });
+    });
+
+    function setTextColor(picker) {
+        document.getElementById("water-text").style.color = '#' + picker.toString();
+        document.getElementById('color').style.color = '#' + picker.toString();
+    }
+
+</script>
+
+
+</html>

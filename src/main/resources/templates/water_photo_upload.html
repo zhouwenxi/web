@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>上传照片</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        div {
+            position: relative;
+            left: 50%;
+            top: 30px;
+            width: 500px;
+            height: 200px;
+            margin-left: -250px;
+            text-align: center;
+        }
+
+        #form {
+            top: 20px;
+        }
+
+        span {
+            color: #f40;
+            text-align: left;
+        }
+
+        p {
+            border: 1px dashed #afc5d2;
+            padding: 12px;
+            margin: 10px;
+            text-align: left;
+        }
+        #net_file{
+            width: 400px;
+            padding: 10px;
+        }
+
+
+    </style>
+
+    <script type="text/javascript">
+        function check() {//function check(f)对应下面程序中的this。f代表表单信息
+            var f = document.getElementById('file');//可以直接用document获取表单指定内容
+
+            if (f.value == null || f.value == "") {
+                alert("请选择文件");
+                return false;
+            } else if (!/.(gif|jpg|jpeg|png|gif|jpg|png)$/.test(f.value)) {
+                alert("图片类型必须是.gif,jpeg,jpg,png中的一种");
+                return false;
+            }
+
+            return true;
+        }
+
+        function check2() {
+            var f = document.getElementById('net_file');//可以直接用document获取表单指定内容
+
+            if (f.value == null || f.value == "") {
+                alert("请选择正确的网络地址!");
+                return false;
+            }
+            return true;
+        }
+    </script>
+
+</head>
+<body background="../images/home_bg.jpg">
+
+<div>
+    <span>1、上传照片</span>
+    <form id="form" action="handle_water" method="post" enctype="multipart/form-data" onsubmit="return check()">
+        <p><input type="file" name="fileName" id="file"/></p>
+        <p><input type="submit" value="立即上传"/></p>
+    </form>
+
+    <span>2、添加网络照片地址(有些跨域问题待解决)</span>
+    <form id="form2" action="handle_water2" method="post" enctype="multipart/form-data" onsubmit="return check2()">
+        <p><input type="text"  name="textUrl" id="net_file" /></p>
+        <p><input type="submit" value="开始" /></p>
+    </form>
+</div>
+
+</body>
+</html>

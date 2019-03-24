@@ -31,7 +31,7 @@
 
 <body>
 <input id="url" type="hidden" th:value="${src}" />
-<img id="img" th:src="@{${src}}">
+<img id="img" th:src="@{${src}}" >
 
 <div id="content">
 
@@ -54,6 +54,7 @@
     var url=document.getElementById('url');
     var text;
     var path;
+
     setSize();
     function setSize() {
         text=document.getElementById('water-text');
