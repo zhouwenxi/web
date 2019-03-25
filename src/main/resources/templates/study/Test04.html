@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+
+    .one {
+        background-color: #1340d3;
+        width: 250px;
+        height: 20px;
+        text-align: center;
+        padding: 10px;
+        float: left;
+        margin-left: 15px;
+        margin-top: 10px;
+    }
+
+    .two {
+        float: left;
+        width: 150px;
+        text-align: left;
+    }
+
+
+    .three,
+    .choose{
+        width: 130px;
+        margin-left: 3px;
+    }
+
+    .text {
+        color: #f0f0f0;
+        float: left;
+        text-align: center;
+        width: 100px;
+    }
+
+    #water_set {
+        position: fixed;
+        bottom: 10%;
+        height: 200px;
+        margin-left: 20px;
+        margin-right: 20px;
+        text-align: center;
+        background-color: red;
+    }
+
+    .save{
+        color: white;
+        background-color: #00a4ac;
+    }
+
+
+</style>
+<body>
+
+<div id="content">
+
+</div>
+
+<div id="water_set">
+
+    <div class="one">
+        <div class="text">文字内容</div>
+        <div class="two">
+            <input class="three" type="text">
+        </div>
+    </div>
+
+    <div class="one">
+        <div class="text">文字大小</div>
+        <div class="two">
+            <select id="size" class="choose" onchange="setWaterSize()">
+                <option value="12px">12px</option>
+                <option value="16px">16px</option>
+                <option value="24px">24px</option>
+                <option value="36px" selected="selected">36px</option>
+                <option value="48px">48px</option>
+                <option value="64px">64px</option>
+                <option value="100px">100px</option>
+                <option value="128px">128px</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="one">
+        <div class="text">文字颜色</div>
+        <div class="two">
+            <input class="three" type="text">
+        </div>
+    </div>
+
+    <div class="one">
+        <div class="text">文字透明度</div>
+        <div class="two">
+            <select id="opacity" class="choose" oninput="setwateAlpha()">
+                <option value="1">100%</option>
+                <option value="0.90">90%</option>
+                <option value="0.80">80%</option>
+                <option value="0.60">60%</option>
+                <option value="0.50" selected="selected">50%</option>
+                <option value="0.40">40%</option>
+                <option value="0.30">30%</option>
+                <option value="0.20">20%</option>
+                <option value="0.10">10%</option>
+                <option value="0.5">5%</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="one">
+        <div class="text">文字样式</div>
+        <div class="two">
+            <select  class="choose" onchange="setWaterFontFamily()">
+                <option value="宋体" selected="selected">宋体</option>
+                <option value="黑体">黑体</option>
+                <option value="微软雅黑">微软雅黑</option>
+                <option value="仿宋">仿宋</option>
+                <option value="楷体">楷体</option>
+                <option value="arial">Arial</option>
+                <option value="calibri">Calibri</option>
+                <option value="cambria">Cambria</option>
+                <option value="candara">Candara</option>
+                <option value="consolas">Consolas</option>
+                <option value="cordia new">Cordia New</option>
+                <option value="frankruehl">Drankruehl</option>
+                <option value="georgia">Georgia</option>
+                <option value="lucida console">Lucida Console</option>
+                <option value="palatino linotype">Palatino Linotype</option>
+                <option value="tahoma">Tahoma</option>
+                <option value="times new roman">Times New Roman</option>
+                <option value="verdana">Verdana</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="one">
+        <div class="text">文字是否显示</div>
+        <div class="two">
+            <select  class="choose" onchange="setWaterFontFamily()">
+                <option value="1" selected="selected">显示</option>
+                <option value="0">隐藏</option>
+            </select>
+        </div>
+    </div>
+
+
+    <div class="one">
+        <div class="text">图片样式</div>
+        <div class="two">
+            <select  class="choose" onchange="setWaterFontFamily()">
+                <option value="../images/1.jpg" selected="selected">蓝色圆形</option>
+                <option value="../images/2.jpg">白色圆形</option>
+                <option value="../images/3.jpg">白色方形</option>
+            </select>
+        </div>
+    </div>
+
+
+    <div class="one">
+        <div class="text">图片方向</div>
+        <div class="two">
+            <select class="choose" onchange="setWaterFontFamily()">
+                <option value="10" selected="selected">10</option>
+                <option value="20">20</option>
+                <option value="30">30</option>
+                <option value="40">40</option>
+                <option value="50">50</option>
+                <option value="60">60</option>
+                <option value="70">70</option>
+                <option value="80">80</option>
+                <option value="90">90</option>
+                <option value="135">135</option>
+                <option value="180">180</option>
+                <option value="270">270</option>
+
+            </select>
+        </div>
+    </div>
+
+    <div class="one">
+        <div class="text">图片透明度</div>
+        <div class="two">
+            <select id="select_pic_opacity" class="choose">
+                <option value="100">100%</option>
+                <option value="90">90%</option>
+                <option value="80">80%</option>
+                <option value="60">60%</option>
+                <option value="50" selected="selected">50%</option>
+                <option value="40">40%</option>
+                <option value="30">30%</option>
+                <option value="20">20%</option>
+                <option value="10">10%</option>
+                <option value="5">5%</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="one">
+        <div class="text">图片是否显示</div>
+        <div class="two">
+            <select class="choose" onchange="setWaterFontFamily()">
+                <option value="1" selected="selected">显示</option>
+                <option value="0">隐藏</option>
+            </select>
+        </div>
+    </div>
+    
+
+    <div class="one">
+        <div class="save">生成水印</div>
+    </div>
+
+</div>
+</body>
+</html>

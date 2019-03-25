@@ -4,7 +4,7 @@
 <script src="../css/jquery-1.8.3.min.js"></script>
 <script src="../css/html2canvas.js"></script>
 <script src="../css/jscolor.js"></script>
-<!--<script src="jscolor.js"></script>-->
+<script src="../css/jQueryRotate.2.2.js"></script>
 
 <style>
 
@@ -15,9 +15,8 @@
     #content {
         width: 600px;
         height: 600px;
-        border: 1px lightblue solid;
         background-repeat: no-repeat;
-
+        border: 0.1px solid #00a4ac;
     }
 
     #water-text {
@@ -27,54 +26,64 @@
         color: #ff0000;
         position: absolute;
         cursor: pointer;
+        display: none;
     }
 
-    #set {
-        border: 1px solid #00a4ac;
-        background-color: #99CC00;
-        border-radius: 10px;
-        height: 55px;
-        position: relative;
-        text-align: center;
+    #water-icon {
+        position: absolute;
+        cursor: pointer;
+        background-color: red;
     }
 
-    .row {
-        width: 100%;
-        background-color: #90a2bc;
-        margin-top: 10px;
-        text-align: center;
-    }
-
-    .col-md-3, .col-md-6, .col-md-4 {
+    #icon_set div {
         float: left;
         margin-right: 10px;
-        margin-left: 10px;
-        padding-top: 5px;
-        padding-bottom: 5px;
-    }
-
-    .btn-success {
-        background-color: #3D9C47;
-        text-align: center;
-        color: white;
+        background-color: red;
         padding: 10px;
-        border-radius: 5px;
     }
 
-    .input-group-addon {
-        padding: 6px 12px;
-        font-size: 14px;
-        font-weight: 400;
-        line-height: 1;
-        color: #555;
+    .one {
+        background-color: #3d96c9;
+        width: 250px;
+        height: 20px;
         text-align: center;
-        background-color: #eee;
-        border: 1px solid #ccc;
-        border-radius: 4px;
+        padding: 10px;
+        float: left;
+        margin-left: 15px;
+        margin-top: 10px;
     }
 
-    .form-control {
-        padding: 6px 12px;
+    .two {
+        float: left;
+        width: 150px;
+        text-align: left;
+    }
+
+    .three,
+    .choose {
+        width: 130px;
+        margin-left: 3px;
+    }
+
+    .text {
+        color: #f0f0f0;
+        float: left;
+        text-align: center;
+        width: 100px;
+    }
+
+    #water_set {
+        position: fixed;
+        bottom: 10%;
+        height: 200px;
+        margin-left: 20px;
+        margin-right: 20px;
+        text-align: center;
+    }
+
+    #Save {
+        color: white;
+        border: 1px solid #666666;
     }
 
 </style>
@@ -85,117 +94,244 @@
 
 <div id="content">
 
-    <span id="water-text" onmousedown="small_down(event)">QiShui</span>
+    <span id="water-text" onmousedown="small_down(event)">全球电动车网</span>
+
+    <img id="water-icon" src="../images/icon_style_03.png" onmousedown="small_icon(event)"/>
 
 </div>
 
 
-<div id="set">
-    <div class="panel-body">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="input-group"><span class="input-group-addon">水印文字</span>
-                    <input id="words" value="QiShui" class="form-control" maxlength="16" oninput="setwateName()">
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="input-group"><span class="input-group-addon">字体</span>
-                    <select id="font" class="form-control" onchange="setWaterFontFamily()">
-                        <option value="宋体" selected="selected">宋体</option>
-                        <option value="黑体">黑体</option>
-                        <option value="微软雅黑">微软雅黑</option>
-                        <option value="仿宋">仿宋</option>
-                        <option value="楷体">楷体</option>
-                        <option value="arial">Arial</option>
-                        <option value="calibri">Calibri</option>
-                        <option value="cambria">Cambria</option>
-                        <option value="candara">Candara</option>
-                        <option value="consolas">Consolas</option>
-                        <option value="cordia new">Cordia New</option>
-                        <option value="frankruehl">Drankruehl</option>
-                        <option value="georgia">Georgia</option>
-                        <option value="lucida console">Lucida Console</option>
-                        <option value="palatino linotype">Palatino Linotype</option>
-                        <option value="tahoma">Tahoma</option>
-                        <option value="times new roman">Times New Roman</option>
-                        <option value="verdana">Verdana</option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="input-group"><span class="input-group-addon">大小</span>
-                    <select id="size" class="form-control" onchange="setWaterSize()">
-                        <option value="12px">12px</option>
-                        <option value="16px">16px</option>
-                        <option value="24px">24px</option>
-                        <option value="36px" selected="selected">36px</option>
-                        <option value="48px">48px</option>
-                        <option value="64px">64px</option>
-                    </select>
-                </div>
-            </div>
+<div id="water_set">
+
+    <div class="one">
+        <div class="text">文字内容</div>
+        <div class="two">
+            <input class="three" type="text" id="words" value="全球电动车网" maxlength="16" oninput="setwateName()"/>
         </div>
-
-        <div class="row">
-            <div class="col-md-4">
-                <div class="input-group"><span class="input-group-addon">颜色</span>
-                    <input id="color"
-                           class="form-control colorpicker-element jscolor {valueElement:'chosen-value', onFineChange:'setTextColor(this)'}"
-                           value="#1340d3"
-                           style="background:#1340d3; color:#FFF; ">
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="input-group"><span class="input-group-addon">透明度</span>
-                    <select id="opacity" class="form-control" oninput="setwateAlpha()">
-                        <option value="1">100%</option>
-                        <option value="0.90">90%</option>
-                        <option value="0.80">80%</option>
-                        <option value="0.60">60%</option>
-                        <option value="0.50" selected="selected">50%</option>
-                        <option value="0.40">40%</option>
-                        <option value="0.30">30%</option>
-                        <option value="0.20">20%</option>
-                        <option value="0.10">10%</option>
-                        <option value="0.5">5%</option>
-                    </select>
-                </div>
-            </div>
-        </div>
-
-        <button id="Save" class="btn-success">确认生成水印</button>
     </div>
+
+    <div class="one">
+        <div class="text">文字大小</div>
+        <div class="two">
+            <select id="size" class="choose" onchange="setWaterSize()">
+                <option value="12px">12px</option>
+                <option value="16px">16px</option>
+                <option value="24px">24px</option>
+                <option value="36px" selected="selected">36px</option>
+                <option value="48px">48px</option>
+                <option value="64px">64px</option>
+                <option value="100px">100px</option>
+                <option value="128px">128px</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="one">
+        <div class="text">文字颜色</div>
+        <div class="two">
+            <input
+                    type="text"
+                    id="color"
+                    class="three jscolor {valueElement:'chosen-value', onFineChange:'setTextColor(this)'}"
+                    value="#1340d3"
+                    style="background:#1340d3; color:#FFF; ">
+        </div>
+    </div>
+
+    <div class="one">
+        <div class="text">文字透明度</div>
+        <div class="two">
+            <select id="opacity" class="choose" oninput="setwateAlpha()">
+                <option value="1">100%</option>
+                <option value="0.90">90%</option>
+                <option value="0.80">80%</option>
+                <option value="0.60">60%</option>
+                <option value="0.50" selected="selected">50%</option>
+                <option value="0.40">40%</option>
+                <option value="0.30">30%</option>
+                <option value="0.20">20%</option>
+                <option value="0.10">10%</option>
+                <option value="0.5">5%</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="one">
+        <div class="text">文字样式</div>
+        <div class="two">
+            <select class="choose" id="font" onchange="setWaterFontFamily()">
+                <option value="宋体" selected="selected">宋体</option>
+                <option value="黑体">黑体</option>
+                <option value="微软雅黑">微软雅黑</option>
+                <option value="仿宋">仿宋</option>
+                <option value="楷体">楷体</option>
+                <option value="arial">Arial</option>
+                <option value="calibri">Calibri</option>
+                <option value="cambria">Cambria</option>
+                <option value="candara">Candara</option>
+                <option value="consolas">Consolas</option>
+                <option value="cordia new">Cordia New</option>
+                <option value="frankruehl">Drankruehl</option>
+                <option value="georgia">Georgia</option>
+                <option value="lucida console">Lucida Console</option>
+                <option value="palatino linotype">Palatino Linotype</option>
+                <option value="tahoma">Tahoma</option>
+                <option value="times new roman">Times New Roman</option>
+                <option value="verdana">Verdana</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="one">
+        <div class="text">文字是否显示</div>
+        <div class="two">
+            <select class="choose" id="text_is_show" onchange="setTextSow()">
+                <option value="1">显示</option>
+                <option value="0" selected="selected">隐藏</option>
+            </select>
+        </div>
+    </div>
+
+
+    <div class="one">
+        <div class="text">图片样式</div>
+        <div class="two">
+            <select id="icon_url" class="choose" onchange="setIconStyle()">
+                <option value="../images/icon_style_01.png" selected="selected">蓝色圆形</option>
+                <option value="../images/icon_style_02.png">白色圆形</option>
+                <option value="../images/icon_style_03.png">白色方形</option>
+            </select>
+        </div>
+    </div>
+
+
+    <div class="one">
+        <div class="text">图片方向</div>
+        <div class="two">
+            <select id="angle" class="choose" onchange="setIconAngle()">
+                <option value="0" selected="selected">0</option>
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="30">30</option>
+                <option value="40">40</option>
+                <option value="45">45</option>
+                <option value="50">50</option>
+                <option value="60">60</option>
+                <option value="70">70</option>
+                <option value="80">80</option>
+                <option value="90">90</option>
+                <option value="135">135</option>
+                <option value="180">180</option>
+                <option value="270">270</option>
+
+            </select>
+        </div>
+    </div>
+
+    <div class="one">
+        <div class="text">图片透明度</div>
+        <div class="two">
+            <select id="select_pic_opacity" class="choose" onchange="setIconAlpha()">
+                <option value="1.0">100%</option>
+                <option value="0.90">90%</option>
+                <option value="0.80">80%</option>
+                <option value="0.70">70%</option>
+                <option value="0.60">60%</option>
+                <option value="0.50" selected="selected">50%</option>
+                <option value="0.40">40%</option>
+                <option value="0.30">30%</option>
+                <option value="0.20">20%</option>
+                <option value="0.10">10%</option>
+                <option value="0.5">5%</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="one">
+        <div class="text">图片是否显示</div>
+        <div class="two">
+            <select id="isshowIcon" class="choose" onchange="setShowIcon()">
+                <option value="1" selected="selected">显示</option>
+                <option value="0">隐藏</option>
+            </select>
+        </div>
+    </div>
+
+
+    <div class="one">
+        <div class="text">快捷生成</div>
+        <div class="two">
+            <select id="quicklyStyle" class="choose" onchange="setQuicklyStyle()">
+                <option value="0" selected="selected">右下角</option>
+                <option value="1">正中心</option>
+                <option value="2">斜45</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="one">
+        <div id="Save" class="btn-success">生成水印</div>
+    </div>
+
 </div>
 
 </body>
 
 
 <script>
+
+    //刷新页面一次
+    $(document).ready(function () {
+
+        if (location.href.indexOf("#reloaded") == -1) {
+            location.href = location.href + "#reloaded";
+            location.reload();
+        }
+    });
+
+
     //设置属性
     var img = document.getElementById('img');
     var url = document.getElementById('url');
+    var water_icon = document.getElementById('water-icon');
     var text;
     var path;
 
     setSize();
+
+    setIconStyle();
+
     function setSize() {
         text = document.getElementById('water-text');
         var div = document.getElementById('content');
+
+        var cw = document.body.clientWidth;
+        var ch = document.body.clientHeight;
+
         div.style.width = img.width + 'px';
         div.style.height = img.height + 'px';
+
         div.style.backgroundImage = "url('" + url.value + "')";
 
         path = img.src;
         path = "_water_" + path.substring(path.lastIndexOf('/') + 1, path.length);
+
+
+        var water_Width=img.width/5+'px';
+        var water_Height=img.height/5+'px';
+
+
+        $('#water-icon').css({"height":water_Height,"weight":water_Width});
+
     }
+
+
 
 
     // 设置名字
     function setwateName() {
         document.getElementById("water-text").innerHTML = document.getElementById("words").value;
     }
-
 
 
     //设置透明度
@@ -216,6 +352,84 @@
         document.getElementById("water-text").style.fontFamily = document.getElementById("font").value;
     }
 
+    //设置是否显示
+    function setTextSow() {
+        var x = document.getElementById("text_is_show").value;
+        if (x == 1) {
+            document.getElementById("water-text").style.display = "block";
+        } else {
+            document.getElementById("water-text").style.display = "none";
+        }
+
+    }
+
+    //设置背景图片
+    function setIconStyle() {
+        var x = document.getElementById("icon_url").value;
+        document.getElementById("water-icon").src = x;
+    }
+
+    //设置图片方向
+    function setIconAngle() {
+        var x = document.getElementById("angle").value;
+        $("#water-icon").rotate({animateTo: parseInt($('#angle').val())});
+
+    }
+
+    //设置图片透明度
+    function setIconAlpha() {
+
+        var x = document.getElementById("select_pic_opacity").value;
+        $("#water-icon").css({opacity: x});
+    }
+
+    //设置图片是否显示
+    function setShowIcon() {
+        var x = document.getElementById("isshowIcon").value;
+        if (x == 1) {
+            document.getElementById("water-icon").style.display = "block";
+        } else {
+            document.getElementById("water-icon").style.display = "none";
+        }
+    }
+
+    //快捷生成样式
+    function setQuicklyStyle() {
+        var x = document.getElementById("quicklyStyle").value;
+
+        //右下角
+        if (x == 0) {
+
+        }
+        //正中心
+        else if (x == 1) {
+
+        }
+        //斜45
+        else {
+
+        }
+    }
+
+    function small_icon(e) {
+        var obig = document.getElementById("water-wrap");
+        var osmall = document.getElementById("water-icon");
+        var e = e || window.event;
+        /*用于保存小的div拖拽前的坐标*/
+        osmall.startX = e.clientX - osmall.offsetLeft;
+        osmall.startY = e.clientY - osmall.offsetTop;
+        /*鼠标的移动事件*/
+        document.onmousemove = function (e) {
+            var e = e || window.event;
+            osmall.style.left = e.clientX - osmall.startX + "px";
+            osmall.style.top = e.clientY - osmall.startY + "px";
+        };
+        /*鼠标的抬起事件,终止拖动*/
+        document.onmouseup = function () {
+            document.onmousemove = null;
+            document.onmouseup = null;
+        };
+    }
 
     //移动处理
     function small_down(e) {
@@ -255,14 +469,14 @@
         $("#Save").click(function () {
             html2canvas($("#content"),
                 {
-                onrendered: function (canvas) {
-                    //document.body.appendChild(canvas);
-                    var a = document.createElement('a');
-                    a.download = path;
-                    a.href = canvas.toDataURL("image/jpeg");
-                    a.click();
-                }
-            });
+                    onrendered: function (canvas) {
+                        //document.body.appendChild(canvas);
+                        var a = document.createElement('a');
+                        a.download = path;
+                        a.href = canvas.toDataURL("image/jpeg");
+                        a.click();
+                    }
+                });
         });
     });
 

@@ -37,14 +37,9 @@ public class HandleController {
             }
 
             path = upload.getAbsolutePath() + "\\" + filename;
-
-            // String shuiyin = upload.getAbsolutePath() + "\\shuiying_" + filename;
             LogUtils.e("upload url:" + path);
-            //String logoText = "QQDDC";
-            //LogUtils.e("给图片添加水印文字开始...");
             //保存文件
             FileUtils.copy(file, path);
-            //ImageRemarkUtil.markImageByText(logoText, path, shuiyin, null);
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -52,7 +47,6 @@ public class HandleController {
 
         model.addAttribute("src", "/upload/" + filename);
 
-        //return "water";
         return "study/water";
     }
 

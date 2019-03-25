@@ -48,6 +48,14 @@
             text-align: center;
         }
 
+        #text_set div{
+            float: left;
+        }
+
+        #icon_set div{
+            float: left;
+        }
+
         .col-md-6 {
             float: left;
             margin-right: 30px;
@@ -97,6 +105,12 @@
             border-width: 1px;
             padding: 3px
         }
+
+        #icon_set{
+            top: 10px;
+            background-color: red;
+        }
+
 
 
     </style>
@@ -158,12 +172,12 @@
                 if (e.clientY - osmall.startY <= 0) {
                     osmall.style.top = 0 + "px";
                 }
-                if (e.clientX - osmall.startX >= 530) {
-                    osmall.style.left = 530 + "px";
-                }
-                if (e.clientY - osmall.startY >= 570) {
-                    osmall.style.top = 570 + "px";
-                }
+                // if (e.clientX - osmall.startX >= 530) {
+                //     osmall.style.left = 530 + "px";
+                // }
+                // if (e.clientY - osmall.startY >= 570) {
+                //     osmall.style.top = 570 + "px";
+                // }
             };
             /*鼠标的抬起事件,终止拖动*/
             document.onmouseup = function () {
@@ -201,7 +215,9 @@
 </div>
 
 <div class="set">
-    <div class="panel-body">
+
+    <div id="text_set">
+
         <div class="row">
             <div class="col-md-6">
                 <div class="input-group"><span class="input-group-addon">水印文字</span>
@@ -270,10 +286,59 @@
                     </select>
                 </div>
             </div>
+
+            <div >
+                <span >是否显示水印文字</span>
+
+            </div>
+
         </div>
+
+    </div>
+
+
+        <div id="icon_set">
+            <div >
+                <span >图片水印</span>
+                <select id="select_pic_icon">
+                    <option value="../1.jpg">样式一</option>
+                    <option value="../2.jpg">样式二</option>
+                    <option value="../3.jpg">样式三</option>
+                </select>
+            </div>
+
+            <div >
+                <span >图片水印透明度</span>
+                <select id="select_pic_opacity">
+                    <option value="100">100%</option>
+                    <option value="90">90%</option>
+                    <option value="80">80%</option>
+                    <option value="60">60%</option>
+                    <option value="50" selected="selected">50%</option>
+                    <option value="40">40%</option>
+                    <option value="30">30%</option>
+                    <option value="20">20%</option>
+                    <option value="10">10%</option>
+                    <option value="5">5%</option>
+                </select>
+            </div>
+
+            <div >
+                <span >图片水印旋转方向</span>
+
+            </div>
+
+            <div >
+                <span >是否显示图片水印</span>
+
+            </div>
+
+
+        </div>
+
+
         <br/>
         <button id="Save" onclick="save()">确认生成水印</button>
-    </div>
 </div>
 
 </body>
